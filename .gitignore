@@ -1,0 +1,20 @@
+# We don't want lockfiles in stacks, as people could use a different package manager
+# This part will be removed by `remix.init`
+/remix-core/package-lock.json
+/remix-core/yarn.lock
+/remix-core/pnpm-lock.yaml
+/remix-core/pnpm-lock.yml
+
+node_modules
+**/node_modules
+
+/remix-core/build
+/remix-core/public/build
+/remix-core/.env
+
+/remix-core/cypress/screenshots
+/remix-core/cypress/videos
+/remix-core/prisma/data.db
+/remix-core/prisma/data.db-journal
+
+/remix-core/app/styles/tailwind.css

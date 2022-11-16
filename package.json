@@ -1,0 +1,16 @@
+{
+  "name": "monorepo",
+  "version": "1.0.0",
+  "description": "practice yarn monorepo",
+  "main": "index.js",
+  "author": "Usama Sulaiman",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "remix-core",
+    "design-system"
+  ],
+  "scripts": {
+    "dev": "yarn --cwd remix-core dev"
+  }
+}
