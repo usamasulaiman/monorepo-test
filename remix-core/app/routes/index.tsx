@@ -137,7 +137,7 @@ export default function Index() {
             to="/posts"
             className="text-xl text-blue-600 underline"
           >
-            Blog Posts
+            Blog Posts are here
           </Link>
         </div>
       </div>
