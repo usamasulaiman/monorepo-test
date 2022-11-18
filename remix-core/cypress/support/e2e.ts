@@ -1,4 +1,7 @@
 import "@testing-library/cypress/add-commands";
+
+import '@applitools/eyes-cypress/commands'
+
 import "./commands";
 
 Cypress.on("uncaught:exception", (err) => {
