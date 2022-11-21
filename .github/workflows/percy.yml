@@ -13,8 +13,6 @@ jobs:
     - name: Install dependencies
       run: yarn
     - name: Run tests
-      uses: percy/exec-action@v0.3.1
-      with:
-        custom-command: "yarn workspace remix-core test:percy"
+      run: "cd remix-core npx percy exec -- cypress run"
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}/
