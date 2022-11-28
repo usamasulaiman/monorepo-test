@@ -10,8 +10,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-11, macos-12]
-        browser: [chromium, firefox, webkit]
+        os: [macos-11]
+        browser: [chromium]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
@@ -19,16 +19,9 @@ jobs:
       with:
         node-version: 14
     - run: npm i -g npm@8
-    - run: npm ci
-      env:
-        DEBUG: pw:install
-        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-    - run: npm run build
+    - run: yarn
     - run: npx playwright install --with-deps ${{ matrix.browser }} chromium
-    - run: npm run test -- --project=${{ matrix.browser }}
-    - run: ./utils/upload_flakiness_dashboard.sh ./test-results/report.json
-      if: always()
-      shell: bash
+    - run: yarn playwright test -- --project=${{ matrix.browser }}
     - uses: actions/upload-artifact@v3
       if: ${{ always() }}
       with:
