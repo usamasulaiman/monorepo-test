@@ -5,25 +5,25 @@ on:
   pull_request:
     branches: [ playwright-main ]
 jobs:
-  test_mac:
-    name: ${{ matrix.os }} (${{ matrix.browser }})
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-11]
-        browser: [chromium]
-    runs-on: ${{ matrix.os }}
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: 14
-    - run: npm i -g npm@8
-    - run: yarn
-    - run: npx playwright install --with-deps ${{ matrix.browser }} chromium
-    - run: yarn playwright test -- --project=${{ matrix.browser }}
+        node-version: 16
+    - name: Run docker
+      run: docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.28.0-focal /bin/bash
+    - name: Install dependencies
+      run: yarn
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: yarn playwright test
     - uses: actions/upload-artifact@v3
-      if: ${{ always() }}
+      if: failure()
       with:
-        name: ${{ matrix.browser }}-${{ matrix.os }}-test-results
-        path: test-results
+        name: playwright-report
+        path: /remix-core/playwright-report/
+        retention-days: 30
