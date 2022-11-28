@@ -4,6 +4,6 @@ import { test, expect } from '@playwright/test';
 // const baseUrl = `http://localhost:${process.env.PORT}`;
 
 test('take screenshot of the page', async ({ page }) => {
-  await page.goto('https://github.com/remix-run');
+  await page.goto('https://github.com');
   await expect(page).toHaveScreenshot();
 });
