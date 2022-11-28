@@ -7,30 +7,30 @@ on:
 jobs:
   test_mac:
     name: ${{ matrix.os }} (${{ matrix.browser }})
-      strategy:
-        fail-fast: false
-        matrix:
-          os: [macos-11, macos-12]
-          browser: [chromium, firefox, webkit]
-      runs-on: ${{ matrix.os }}
-      steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      - run: npm i -g npm@8
-      - run: npm ci
-        env:
-          DEBUG: pw:install
-          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-      - run: npm run build
-      - run: npx playwright install --with-deps ${{ matrix.browser }} chromium
-      - run: npm run test -- --project=${{ matrix.browser }}
-      - run: ./utils/upload_flakiness_dashboard.sh ./test-results/report.json
-        if: always()
-        shell: bash
-      - uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: ${{ matrix.browser }}-${{ matrix.os }}-test-results
-          path: test-results
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-11, macos-12]
+        browser: [chromium, firefox, webkit]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
+    - run: npm i -g npm@8
+    - run: npm ci
+      env:
+        DEBUG: pw:install
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+    - run: npm run build
+    - run: npx playwright install --with-deps ${{ matrix.browser }} chromium
+    - run: npm run test -- --project=${{ matrix.browser }}
+    - run: ./utils/upload_flakiness_dashboard.sh ./test-results/report.json
+      if: always()
+      shell: bash
+    - uses: actions/upload-artifact@v3
+      if: ${{ always() }}
+      with:
+        name: ${{ matrix.browser }}-${{ matrix.os }}-test-results
+        path: test-results
