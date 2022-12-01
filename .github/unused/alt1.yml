@@ -8,11 +8,15 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.28.0-focal
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+    - name: Run docker
+      run: docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.28.0-focal /bin/bash
     - name: Install dependencies
       run: yarn
     - name: Install Playwright Browsers
@@ -25,4 +29,3 @@ jobs:
         name: playwright-report
         path: /remix-core/playwright-report/
         retention-days: 30
-  
